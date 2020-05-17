@@ -1,0 +1,32 @@
+name: PR
+
+on: pull_request
+
+jobs:
+  validate-docker-image-builds:
+    name: Validate Docker image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker build
+        run: "docker build --pull ."
+
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    container:
+      image: ponylang/shared-docker-ci-shellcheck:20191008
+    steps:
+      - uses: actions/checkout@v1
+      - name: Shellcheck entrypoint.sh
+        run: shellcheck entrypoint.sh
+
+  verify-changelog:
+    name: Verify CHANGELOG is valid
+    runs-on: ubuntu-latest
+    container:
+      image: ponylang/changelog-tool:release
+    steps:
+      - uses: actions/checkout@v1
+      - name: Verify CHANGELOG
+        run: changelog-tool verify
