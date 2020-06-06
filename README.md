@@ -24,7 +24,7 @@ jobs:
         uses: ponylang/main-actor-documentation-action@0.1.0
         with:
           library_name: "MYLIBRARY"
-          docs_build_dir: "docs/build-MYLIBRARY"
+          docs_build_dir: "build/MY-LIBRARY-docs"
           git_user_name: "Ponylang Main Bot"
           git_user_email: "ponylang.main@gmail.com"
         env:
