@@ -139,7 +139,7 @@ git.config('--global', 'user.name', os.environ['INPUT_GIT_USER_NAME'])
 git.config('--global', 'user.email', os.environ['INPUT_GIT_USER_EMAIL'])
 github_token  = os.environ['GITHUB_TOKEN']
 remote = 'https://' + github_token + '@github.com/' + os.environ['GITHUB_REPOSITORY']
-git.remote('add', 'gh-token', )
+git.remote('add', 'gh-token', remote)
 git.fetch('gh-token')
 git.reset('gh-token/generated-documentation')
 
