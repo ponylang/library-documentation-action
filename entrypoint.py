@@ -103,9 +103,11 @@ print(INFO + "Trimming index.md." + ENDC)
 with in_place.InPlace(index_file) as fp:
     for line in fp:
         if not line.startswith('*'):
+            print("WRITING INDEX LINE")
             fp.write(line)
         else:
             if line.startswith('*[' + library_name + ']'):
+                print("WRITING INDEX LINE")
                 fp.write(line)
 
 #
