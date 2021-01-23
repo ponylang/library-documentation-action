@@ -114,21 +114,24 @@ with in_place.InPlace(index_file) as fp:
 #
 
 print(INFO + "Fixing links to code outside of our package." + ENDC)
-#for f in os.listdir(docs_dir):
-#    if f == "src":
-#        continue
-#
-#    p = os.path.join(docs_dir, f)
-#    print(INFO + "Fixing links in " + str(p) + "." + ENDC)
-#    with in_place.InPlace(p) as fp:
-#        for line in fp:
-#            for removed in removed_docs:
-#                if removed in line:
-#                    print(INFO + "Replacing link for " + removed + "." + ENDC)
-#                    as_html = removed.replace('.md', '')
-#                    link = 'https://stdlib.ponylang.io/' + as_html + "/"
-#                    line = line.replace(removed, link)
-#        fp.write(line)
+for f in os.listdir(docs_dir):
+    if f == "src":
+        continue
+
+    p = os.path.join(docs_dir, f)
+    print(INFO + "Fixing links in " + str(p) + "." + ENDC)
+    with in_place.InPlace(p) as fp:
+        for line in fp:
+            for removed in removed_docs:
+                if removed in line:
+                    print(INFO + "Replacing link for " + removed + "." + ENDC)
+                    as_html = removed.replace('.md', '')
+                    link = 'https://stdlib.ponylang.io/' + as_html + "/"
+                    print(INFO + "Replaced with " + link + ENDC)
+                    line = line.replace(removed, link)
+                    print(INFO + "LINE IS " + line + ENDC)
+
+        fp.write(line)
 
 #
 # run mkdocs to actually build the content
