@@ -25,7 +25,7 @@ docs_build_dir = os.environ['INPUT_DOCS_BUILD_DIR']
 
 print(INFO + "Running 'make docs'." + ENDC)
 rslt = os.system('make docs')
-if rslt != 0 then:
+if rslt != 0:
     print(ERROR + "'make docs' failed." + ENDC)
     sys.exit(1)
 
@@ -42,7 +42,7 @@ source_dir = os.path.join(docs_dir, 'src')
 print(INFO + "Removing 'other docs'." + ENDC)
 removed_docs = []
 for f in os.listdir(docs_dir):
-    if f == "src" or f == "index.md":
+    if f == ('src', 'index.md'):
         continue
 
     if not f.startswith(library_name + '-'):
@@ -140,8 +140,9 @@ git.fetch('gh-token')
 git.reset('gh-token/generated-documentation')
 
 os.chdir(docs_build_dir)
-rslt = os.system('mkdocs gh-deploy --verbose --clean --remote-name gh-token --remote-branch generated-documentation')
+rslt = os.system('mkdocs gh-deploy --verbose --clean \
+    --remote-name gh-token --remote-branch generated-documentation')
 
-if rslt != 0 then:
+if rslt != 0:
     print(ERROR + "'mkdocs gh-deploy' failed." + ENDC)
     sys.exit(1)
