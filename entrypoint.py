@@ -16,8 +16,8 @@ ERROR = '\033[31m'
 INFO = '\033[34m'
 NOTICE = '\033[33m'
 
-if 'API_CREDENTIALS' not in os.environ:
-    print(ERROR + "API_CREDENTIALS needs to be set in env. Exiting." + ENDC)
+if 'GITHUB_TOKEN' not in os.environ:
+    print(ERROR + "GITHUB_TOKEN needs to be set in env. Exiting." + ENDC)
     sys.exit(1)
 
 library_name = os.environ['INPUT_LIBRARY_NAME']
@@ -137,7 +137,7 @@ print(INFO + "Setting up git configuration." + ENDC)
 git = git.Repo().git
 git.config('--global', 'user.name', os.environ['INPUT_GIT_USER_NAME'])
 git.config('--global', 'user.email', os.environ['INPUT_GIT_USER_EMAIL'])
-github_token  = os.environ['API_CREDENTIALS']
+github_token  = os.environ['GITHUB_TOKEN']
 remote = 'https://' + github_token + '@github.com/' + os.environ['GITHUB_REPOSITORY']
 git.remote('add', 'gh-token', )
 git.fetch('gh-token')

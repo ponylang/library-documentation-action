@@ -28,5 +28,5 @@ jobs:
           git_user_name: "Ponylang Main Bot"
           git_user_email: "ponylang.main@gmail.com"
         env:
-          API_CREDENTIALS: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
