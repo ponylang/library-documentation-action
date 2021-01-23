@@ -142,7 +142,6 @@ git.config('--global', 'user.email', os.environ['INPUT_GIT_USER_EMAIL'])
 token  = os.environ['RELEASE_TOKEN']
 remote = 'https://' + token + '@github.com/' + os.environ['GITHUB_REPOSITORY']
 git.remote('add', 'gh-token', remote)
-git.fetch('gh-token')
 
 os.chdir(docs_build_dir)
 rslt = os.system('mkdocs gh-deploy --verbose --clean \
