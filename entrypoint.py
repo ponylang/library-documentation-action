@@ -131,6 +131,7 @@ for f in os.listdir(docs_dir):
                     line = line.replace(removed, link)
                     print(INFO + "LINE IS " + line + ENDC)
 
+        print("WRITING LINE: " + line)
         fp.write(line)
 
 #
