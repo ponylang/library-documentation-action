@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Generate documentation and upload
-        uses: ponylang/library-documentation-action  @0.1.0
+        uses: ponylang/library-documentation-action@0.0.0
         with:
           library_name: "MYLIBRARY"
           docs_build_dir: "build/MY-LIBRARY-docs"
