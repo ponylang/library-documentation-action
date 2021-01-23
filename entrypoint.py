@@ -98,13 +98,13 @@ with open(mkdocs_yml_file, 'w') as outfile:
 #
 
 print(INFO + "Trimming index.md." + ENDC)
-with in_place.InPlace(index_file) as fp:
-    for line in fp:
-        if not line.startswith('*'):
-            fp.write(line)
-        else:
-            if line.startswith('*[' + library_name + ']'):
-                fp.write(line)
+#with in_place.InPlace(index_file) as fp:
+#    for line in fp:
+#        if not line.startswith('*'):
+#            fp.write(line)
+#        else:
+#            if line.startswith('*[' + library_name + ']'):
+#                fp.write(line)
 
 #
 # Go through the markdown belonging to our package and replace missing entries
