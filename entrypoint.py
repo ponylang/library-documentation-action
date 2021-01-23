@@ -39,7 +39,7 @@ source_dir = os.path.join(docs_dir, 'src')
 print(INFO + "Removing 'other docs'." + ENDC)
 removed_docs = []
 for f in os.listdir(docs_dir):
-    if f == "src":
+    if f == "src" or f == "index.md":
         continue
 
     if not f.startswith(library_name + '-'):
