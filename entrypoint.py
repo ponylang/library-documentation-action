@@ -28,7 +28,7 @@ os.system('make docs')
 
 mkdocs_yml_file = os.path.join(docs_build_dir, 'mkdocs.yml')
 docs_dir = os.path.join(docs_build_dir, 'docs')
-index_file = os.path.join(docs_build_dir, 'index.md')
+index_file = os.path.join(docs_dir, 'index.md')
 source_dir = os.path.join(docs_dir, 'src')
 
 #
