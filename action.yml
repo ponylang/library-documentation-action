@@ -1,5 +1,5 @@
-name: 'main.actor Documentation action'
-description: 'Generates documentation for the release and uploads to main.actor'
+name: 'Library Documentation action'
+description: 'Generates documentation for Pony libraries'
 runs:
   using: 'docker'
   image: 'Dockerfile'

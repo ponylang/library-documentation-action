@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Generates documentation for the release and uploads to main.actor
+# Generates documentation for the release and updates GitHub pages.
 #
 # Tools required in the environment that runs this:
 #

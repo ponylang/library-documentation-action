@@ -2,7 +2,8 @@ name: Announce a release
 
 on:
   push:
-    tags: announce-\d+.\d+.\d+
+    tags:
+      - announce-\d+.\d+.\d+
 
 jobs:
   announce-a-release:
