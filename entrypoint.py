@@ -122,6 +122,7 @@ for f in os.listdir(docs_dir):
     print(INFO + "Fixing links in " + str(p) + "." + ENDC)
     with in_place.InPlace(p) as fp:
         for line in fp:
+            print("INCOMING LINE: " + line)
             for removed in removed_docs:
                 if removed in line:
                     print(INFO + "Replacing link for " + removed + "." + ENDC)
@@ -131,8 +132,8 @@ for f in os.listdir(docs_dir):
                     line = line.replace(removed, link)
                     print(INFO + "LINE IS " + line + ENDC)
 
-        print("WRITING LINE: " + line)
-        fp.write(line)
+            print("WRITING LINE: " + line)
+            fp.write(line)
 
 #
 # run mkdocs to actually build the content
