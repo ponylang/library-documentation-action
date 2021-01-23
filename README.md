@@ -23,6 +23,7 @@ jobs:
       - name: Generate documentation and upload
         uses: ponylang/library-documentation-action@0.0.0
         with:
+          site_url: "https://MYORG.github.io/MYLIBRARY/"
           library_name: "MYLIBRARY"
           docs_build_dir: "build/MY-LIBRARY-docs"
           git_user_name: "Ponylang Main Bot"
