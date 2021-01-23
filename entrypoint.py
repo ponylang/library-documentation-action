@@ -130,6 +130,11 @@ print(INFO + "Setting up git configuration." + ENDC)
 git = git.Repo().git
 git.config('--global', 'user.name', os.environ['INPUT_GIT_USER_NAME'])
 git.config('--global', 'user.email', os.environ['INPUT_GIT_USER_EMAIL'])
+github_token  = os.environ['GITHUB_TOKEN']
+remote = 'https://' + github_token + '@github.com/' + os.environ['GITHUB_REPOSITORY']
+git.remote('add', 'gh-token', )
+git.fetch('gh-token')
+git.reset('gh-token/generated-documentation')
 
 os.chdir(docs_build_dir)
-os.system('mkdocs gh-deploy --verbose --clean --remote-branch generated-documentation')
+os.system('mkdocs gh-deploy --verbose --clean --remote-name gh-token --remote-branch generated-documentation')
