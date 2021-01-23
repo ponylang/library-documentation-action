@@ -84,7 +84,6 @@ with open(mkdocs_yml_file) as infile:
     new_nav = []
     library_package_key = 'package ' + library_name
     for entry in nav:
-        print(entry)
         if  library_name in entry or library_package_key in entry:
             # it's part of our package, keep it
             new_nav.append(entry)
