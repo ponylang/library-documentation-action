@@ -102,13 +102,10 @@ with open(mkdocs_yml_file, 'w') as outfile:
 print(INFO + "Trimming index.md." + ENDC)
 with in_place.InPlace(index_file) as fp:
     for line in fp:
-        print("INDEX LINE: " + line)
         if not line.startswith('*'):
-            print("WRITING INDEX LINE: " + line)
             fp.write(line)
         else:
-            if line.startswith('*[' + library_name + ']'):
-                print("WRITING INDEX LINE: " + line)
+            if line.startswith('* [' + library_name + ']'):
                 fp.write(line)
 
 #
