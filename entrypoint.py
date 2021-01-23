@@ -90,6 +90,7 @@ with open(mkdocs_yml_file) as infile:
     mkdocs_yml['nav'] = new_nav
 
 # add a site url to fix some /asset links
+# without this, the 404 page will be broken
 mkdocs_yml['site_url'] = os.environ['INPUT_SITE_URL']
 
 with open(mkdocs_yml_file, 'w') as outfile:
