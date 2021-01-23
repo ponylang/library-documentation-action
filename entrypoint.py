@@ -89,6 +89,9 @@ with open(mkdocs_yml_file) as infile:
 
     mkdocs_yml['nav'] = new_nav
 
+# add a site url to fix some /asset links
+mkdocs_yml.append({'site_url':'https://ponylang.github.io/action-testing/')
+
 with open(mkdocs_yml_file, 'w') as outfile:
     yaml.dump(mkdocs_yml, outfile)
 
