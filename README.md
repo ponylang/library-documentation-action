@@ -28,5 +28,7 @@ jobs:
           git_user_name: "Ponylang Main Bot"
           git_user_email: "ponylang.main@gmail.com"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 ```
+
+N.B. The environment variable RELEASE_TOKEN that is required by each step must be a personal access token with public_repo access. You can not use the GITHUB_TOKEN environment variable provided by GitHub's action environment. If you try to use GITHUB_TOKEN, the action will fail when trying to upload the built documentation.
