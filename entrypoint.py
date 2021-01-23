@@ -24,7 +24,10 @@ docs_build_dir = os.environ['INPUT_DOCS_BUILD_DIR']
 #
 
 print(INFO + "Running 'make docs'." + ENDC)
-os.system('make docs')
+rslt = os.system('make docs')
+if rslt != 0 then:
+    print(ERROR + "'make docs' failed." + ENDC)
+    sys.exit(1)
 
 mkdocs_yml_file = os.path.join(docs_build_dir, 'mkdocs.yml')
 docs_dir = os.path.join(docs_build_dir, 'docs')
@@ -137,4 +140,8 @@ git.fetch('gh-token')
 git.reset('gh-token/generated-documentation')
 
 os.chdir(docs_build_dir)
-os.system('mkdocs gh-deploy --verbose --clean --remote-name gh-token --remote-branch generated-documentation')
+rslt = os.system('mkdocs gh-deploy --verbose --clean --remote-name gh-token --remote-branch generated-documentation')
+
+if rslt != 0 then:
+    print(ERROR + "'mkdocs gh-deploy' failed." + ENDC)
+    sys.exit(1)
