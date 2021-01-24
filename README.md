@@ -1,6 +1,10 @@
 # library-documentation-action
 
-A GitHub Action that generates documentation for a Pony library and updates that documentation on GitHub pages. The library in question must have a Makefile with a target `docs` that can be used to generate the documentation.
+A GitHub Action that generates documentation for a Pony library and updates that documentation on GitHub pages. The library in question must have a Makefile with a target `docs` that can be used to generate the documentation that can be feed to `mkdocs`.
+
+Generated docs are uploaded to the branch `generated-documentation` in the repo that this action is installed. Once you have run the action for the first time, you can turn on GitHub Pages for your repository with `generated-documentation` as the branch to build from. After turning on GitHub pages, your new documentation site should be available within a couple minutes.
+
+You need to supply the url of your site to the action in the `site_url` option. For GitHub pages, that domain will be `https://USER_OR_ORG_NAME.github.io/REPOSITORY_NAME/`.
 
 ## Example workflow
 
