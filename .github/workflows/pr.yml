@@ -3,6 +3,14 @@ name: PR
 on: pull_request
 
 jobs:
+  lint-entrypoint-py:
+    name: Lint entrypoint.py
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: pylint
+        run: make pylint
+
   superlinter:
     name: Lint bash, docker, markdown, and yaml
     runs-on: ubuntu-latest
@@ -24,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Docker build
-        run: "docker build --pull ."
+        run: make build
 
   verify-changelog:
     name: Verify CHANGELOG is valid

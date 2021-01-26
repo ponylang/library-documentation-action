@@ -12,12 +12,17 @@ RUN apk add --update --no-cache \
   make \
   python3 \
   python3-dev \
-  py3-pip \
-  && pip3 install --upgrade pip \
-  && pip3 install wheel \
-  && pip3 install mkdocs \
-  && pip3 install mkdocs-ponylang
+  py3-pip
 
-COPY entrypoint.sh /entrypoint.sh
+RUN pip3 install --upgrade pip \
+  wheel \
+  gitpython \
+  in_place \
+  mkdocs \
+  mkdocs-ponylang \
+  pylint \
+  pyyaml
 
-ENTRYPOINT ["/entrypoint.sh"]
+COPY entrypoint.py /entrypoint.py
+
+ENTRYPOINT ["/entrypoint.py"]
