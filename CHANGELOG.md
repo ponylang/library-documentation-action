@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Fixed
 
+- Fix error where you can't deploy docs over an existing deployment ([PR #6](https://github.com/ponylang/library-documentation-action/pull/6))
 
 ### Added
 
