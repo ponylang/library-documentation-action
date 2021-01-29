@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Added
 
+- Add support for libraries that have subpackages ([PR #7](https://github.com/ponylang/library-documentation-action/pull/7))
 
 ### Changed
 
