@@ -72,20 +72,37 @@ for f in os.listdir(source_dir):
 
 #
 # - trim mkdocs.yml down to entries for our library
+#   record those packages for later reference
 #
 
 print(INFO + "Trimming mkdocs.yml." + ENDC)
 mkdocs_yml = {}
+packages = []
 with open(mkdocs_yml_file) as infile:
     mkdocs_yml = yaml.load(infile, Loader=yaml.FullLoader)
     nav = mkdocs_yml['nav']
 
     new_nav = []
     library_package_key = 'package ' + library_name
+    library_subpackage_key = 'package ' + library_name + '/'
     for entry in nav:
-        if  library_name in entry or library_package_key in entry:
-            # it's part of our package, keep it
-            new_nav.append(entry)
+        # there's only 1 entry but we don't know what it is because
+        # well that's how the yaml package represents this thing should be a
+        # 2-element tuple or list
+        for k in entry.keys():
+            if k == library_name:
+                # library index entry. keep it.
+                new_nav.append(entry)
+
+            if k == library_package_key \
+              or k.startswith(library_subpackage_key):
+                # package entry. keep it.
+                # record the package name for later usage
+                new_nav.append(entry)
+                # entry will look like one of:
+                # package semver
+                # package semver/subpackage
+                packages.append(k[8:])
 
     mkdocs_yml['nav'] = new_nav
 
@@ -106,8 +123,9 @@ with in_place.InPlace(index_file) as fp:
         if not line.startswith('*'):
             fp.write(line)
         else:
-            if line.startswith('* [' + library_name + ']'):
-                fp.write(line)
+            for p in packages:
+                if line.startswith('* [' + p + ']'):
+                    fp.write(line)
 
 #
 # Go through the markdown belonging to our package and replace missing entries
