@@ -2,17 +2,11 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
-
-### Fixed
-
+## [0.1.2] - 2021-01-29
 
 ### Added
 
 - Add support for libraries that have subpackages ([PR #7](https://github.com/ponylang/library-documentation-action/pull/7))
-
-### Changed
-
 
 ## [0.1.1] - 2021-01-28
 
