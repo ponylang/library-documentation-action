@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Fixed
 
+- Fix broken Dockerfile build ([PR #9](https://github.com/ponylang/library-documentation-action/pull/9))
 
 ### Added
 
