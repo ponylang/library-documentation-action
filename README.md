@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Generate documentation and upload
-        uses: ponylang/library-documentation-action@0.1.3
+        uses: ponylang/library-documentation-action@0.1.4
         with:
           site_url: "https://MYORG.github.io/MYLIBRARY/"
           library_name: "MYLIBRARY"
@@ -73,7 +73,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Generate documentation and upload
-        uses: ponylang/library-documentation-action@0.1.3
+        uses: ponylang/library-documentation-action@0.1.4
         with:
           site_url: ${{ github.event.inputs.site_url }}
           library_name: ${{ github.event.inputs.library_name }}
