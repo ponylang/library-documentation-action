@@ -2,17 +2,11 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.1.4] - 2021-02-07
 
 ### Fixed
 
 - Fix broken Dockerfile build ([PR #9](https://github.com/ponylang/library-documentation-action/pull/9))
-
-### Added
-
-
-### Changed
-
 
 ## [0.1.3] - 2021-02-07
 
