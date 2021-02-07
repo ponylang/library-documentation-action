@@ -2,7 +2,9 @@
 # pylint: disable=C0103
 # pylint: disable=C0114
 
+import json
 import os
+import os.path
 import shutil
 import sys
 import git
@@ -128,6 +130,57 @@ with in_place.InPlace(index_file) as fp:
                     fp.write(line)
 
 #
+# `make docs` at the start will have pulled down any needed dependencies that
+# we might have. Here we are going to reach into the _corral directory to find
+# the `corral.json` for any dependencies and get:
+# - the package names
+# - the location of the documentation_url
+#
+# This should eventually be incorporated into `corral` as a command
+# or something similar. In the meantime, we are doing "by hand" in this
+# action as we work out how to accomplish everything that we want to.
+#
+# This could grab info about "extra" packages as there is on guarantee that a
+# dependency that was removed isn't still in _corral directory assuming that
+# this code was used outside of the context of this action that starts from a
+# clean-slate. That's not an edge condition to worry about at this time.
+#
+# packages provided are listed in `corral.json` in an array with the key
+# `packages`. Every package needs to be listed including those that are
+# "subpackages" so for example, we have package listings for `semver`,
+# `semver/constraint`, and `semver/version`.
+#
+# The documentation_url for a given package is located in the `info` object
+# in the `documentation_url` field.
+#
+
+documentation_urls = {}
+
+if os.path.isdir("_corral"):
+    dependencies_dirs = os.listdir("_corral")
+    for dd in dependencies_dirs:
+        corral_file = "/".join(["_corral", dd, "corral.json"])
+        if not os.path.isfile(corral_file):
+            print(NOTICE + "No corral.json in " + dd + "." + ENDC)
+            continue
+
+        corral_data = json.load(open(corral_file, 'r'))
+        bundle_documentation_url = ""
+        try:
+            bundle_documentation_url = corral_data['info']['documentation_url']
+        except KeyError as e:
+            print(NOTICE + "No documentation_url in " + corral_file + "." \
+              + ENDC)
+
+        try:
+            packages = corral_data['packages']
+            for p in packages:
+                documentation_urls[p] = bundle_documentation_url
+        except KeyError as e:
+            print(NOTICE + "No packages in " + corral_file + "." \
+              + ENDC)
+
+#
 # Go through the markdown belonging to our package and replace missing entries
 # with links to their external sites.
 #
@@ -144,8 +197,29 @@ for f in os.listdir(docs_dir):
             for removed in removed_docs:
                 if removed in line:
                     print(INFO + "Replacing link for " + removed + "." + ENDC)
+
+                    # get the package name
+                    s = removed.replace('.md', '')
+                    s = s.split('-')
+                    if len(s) > 1:
+                        del s[-1]
+                    package_name = '/'.join(s)
+
+                    # if unknown package, we'll use the standard library
+                    external_url = documentation_urls.get(package_name, \
+                      'https://stdlib.ponylang.io/')
+
+                    # as the external url is input from users, it might not
+                    # include a trailing slash. if not, generated urls will
+                    # be broken.
+                    # there's far more validation we could do here, but in
+                    # terms of helping out a non-malicious user, this is the
+                    # minimum
+                    if not external_url.endswith('/'):
+                        external_url += '/'
+
                     as_html = removed.replace('.md', '')
-                    link = 'https://stdlib.ponylang.io/' + as_html + "/"
+                    link = external_url + as_html + "/"
                     line = line.replace(removed, link)
 
             fp.write(line)
