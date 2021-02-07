@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Added
 
+- Allow for creating documentation that can link to external dependencies ([PR #8](https://github.com/ponylang/library-documentation-action/pull/8))
 
 ### Changed
 
