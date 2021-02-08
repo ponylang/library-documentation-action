@@ -15,8 +15,6 @@ RUN apk add --update --no-cache \
   py3-pip
 
 RUN pip3 install --upgrade pip \
-  wheel \
-  cryptography==3.3 \
   gitpython \
   in_place \
   mkdocs \
