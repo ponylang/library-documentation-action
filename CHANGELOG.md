@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Fixed
 
+- Don't error out if `generated-documentation` branch doesn't exist ([PR #11](https://github.com/ponylang/library-documentation-action/pull/11))
 
 ### Added
 
