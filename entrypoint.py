@@ -10,6 +10,7 @@ import sys
 import git
 import in_place
 import yaml
+from git.exc import GitCommandError
 
 # Output strings for coloring
 
@@ -236,7 +237,14 @@ token  = os.environ['RELEASE_TOKEN']
 remote = 'https://' + token + '@github.com/' + os.environ['GITHUB_REPOSITORY']
 git.remote('add', 'gh-token', remote)
 git.fetch('gh-token')
-git.reset('gh-token/generated-documentation')
+# reset will fail if 'generated-documentation` branch doesn't yet exist. That's
+# fine, it will exist after our push. Just not the error and move on.
+try:
+    git.reset('gh-token/generated-documentation')
+except GitCommandError:
+    print(NOTICE + "Couldn't git reset generated-documentation." + ENDC)
+    print(NOTICE + "This error is expected if the branch doesn't exist yet." \
+      + ENDC)
 
 print(INFO + "Running 'mkdocs gh-deploy'." + ENDC)
 os.chdir(docs_build_dir)
