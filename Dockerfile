@@ -18,7 +18,7 @@ RUN pip3 install --upgrade pip \
   gitpython \
   in_place \
   mkdocs \
-  mkdocs-ponylang \
+  mkdocs-material \
   pylint \
   pyyaml
 
