@@ -6,11 +6,15 @@ import json
 import os
 import os.path
 import shutil
+import subprocess
 import sys
+from contextlib import contextmanager
+from tempfile import NamedTemporaryFile, mkstemp
+from git.exc import GitCommandError
+
 import git
 import in_place
 import yaml
-from git.exc import GitCommandError
 
 # Output strings for coloring
 
@@ -19,8 +23,10 @@ ERROR = '\033[31m'
 INFO = '\033[34m'
 NOTICE = '\033[33m'
 
-if 'RELEASE_TOKEN' not in os.environ:
-    print(ERROR + "RELEASE_TOKEN needs to be set in env. Exiting." + ENDC)
+deploy_key = os.environ.get('DEPLOY_KEY')
+if not deploy_key and 'RELEASE_TOKEN' not in os.environ:
+    print(f"{ERROR}Either RELEASE_TOKEN or DEPLOY_KEY needs to be set in env. "
+          f"Exiting.{ENDC}")
     sys.exit(1)
 
 library_name = os.environ['INPUT_LIBRARY_NAME']
@@ -233,23 +239,62 @@ print(INFO + "Setting up git configuration." + ENDC)
 git = git.Repo().git
 git.config('--global', 'user.name', os.environ['INPUT_GIT_USER_NAME'])
 git.config('--global', 'user.email', os.environ['INPUT_GIT_USER_EMAIL'])
-token  = os.environ['RELEASE_TOKEN']
-remote = 'https://' + token + '@github.com/' + os.environ['GITHUB_REPOSITORY']
-git.remote('add', 'gh-token', remote)
-git.fetch('gh-token')
-# reset will fail if 'generated-documentation` branch doesn't yet exist. That's
-# fine, it will exist after our push. Just not the error and move on.
-try:
-    git.reset('gh-token/generated-documentation')
-except GitCommandError:
-    print(NOTICE + "Couldn't git reset generated-documentation." + ENDC)
-    print(NOTICE + "This error is expected if the branch doesn't exist yet." \
-      + ENDC)
+if deploy_key:
+    @contextmanager
+    def git_auth():
+        """
+        Temporarily set SSH credentials for Git. To be used as context manager.
+        """
+        (ssh_wrapper_fd, ssh_wrapper_path) = mkstemp(text=True)
+        try:
+            with NamedTemporaryFile() as identity_file:
+                with open(ssh_wrapper_fd, "w") as ssh_wrapper_file:
+                    ssh_wrapper_file.write('#!/bin/sh\n')
+                    ssh_wrapper_file.write(
+                        f'exec ssh -o StrictHostKeyChecking=no '
+                        f'-i {identity_file.name} $@')
+                    os.chmod(ssh_wrapper_path, 0o500)
 
-print(INFO + "Running 'mkdocs gh-deploy'." + ENDC)
-os.chdir(docs_build_dir)
-rslt = os.system('mkdocs gh-deploy --verbose --clean \
-    --remote-name gh-token --remote-branch generated-documentation')
-if rslt != 0:
+                identity_file.write(deploy_key.encode('utf-8'))
+                identity_file.flush()
+                os.environ['GIT_SSH'] = ssh_wrapper_path
+                try:
+                    yield
+                finally:
+                    del os.environ['GIT_SSH']
+        finally:
+            os.unlink(ssh_wrapper_path)
+
+    remote = f'git@github.com:{os.environ["GITHUB_REPOSITORY"]}'
+else:
+    @contextmanager
+    def git_auth():
+        """
+        No-op context manager.
+        """
+        yield
+
+    token  = os.environ['RELEASE_TOKEN']
+    remote = f'https://{token}@github.com/{os.environ["GITHUB_REPOSITORY"]}'
+git.remote('add', 'gh-token', remote)
+with git_auth():
+    git.fetch('gh-token')
+    # reset will fail if 'generated-documentation` branch doesn't yet exist.
+    # That's fine, it will exist after our push. Just not the error and move on.
+    try:
+        git.reset('gh-token/generated-documentation')
+    except GitCommandError:
+        print(NOTICE + "Couldn't git reset generated-documentation." + ENDC)
+        print(NOTICE + "This error is expected if the branch doesn't exist yet."
+          + ENDC)
+
+    print(INFO + "Running 'mkdocs gh-deploy'." + ENDC)
+    # pylint: disable=W1510
+    rslt = subprocess.run(
+        ['mkdocs', 'gh-deploy', '--verbose', '--clean',
+         '--remote-name', 'gh-token',
+         '--remote-branch', 'generated-documentation'],
+        cwd=docs_build_dir)
+if rslt.returncode != 0:
     print(ERROR + "'mkdocs gh-deploy' failed." + ENDC)
     sys.exit(1)

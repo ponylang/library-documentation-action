@@ -38,6 +38,8 @@ jobs:
 
 N.B. The environment variable RELEASE_TOKEN that is required by each step must be a personal access token with public_repo access. You can not use the GITHUB_TOKEN environment variable provided by GitHub's action environment. If you try to use GITHUB_TOKEN, the action will fail when trying to upload the built documentation.
 
+Alternatively, you can use a [Deploy Key](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys) with write access by setting the `DEPLOY_KEY` environment variable.
+
 ## Manually triggering a documentation build and deploy
 
 GitHub has a [`workflow_dispatch`](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch) event that provides a button the actions UI to trigger the workflow. You can set up a workflow to respond to a workflow_dispatch if you need to regenerate documentation from the last commit on a given branch without doing a full release.

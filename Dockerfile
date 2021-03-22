@@ -12,7 +12,8 @@ RUN apk add --update --no-cache \
   make \
   python3 \
   python3-dev \
-  py3-pip
+  py3-pip \
+  openssh-client
 
 RUN pip3 install --upgrade pip \
   gitpython \
