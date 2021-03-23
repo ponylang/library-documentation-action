@@ -10,10 +10,10 @@ RUN apk add --update --no-cache \
   libressl \
   libressl-dev \
   make \
+  openssh-client \
   python3 \
   python3-dev \
-  py3-pip \
-  openssh-client
+  py3-pip
 
 RUN pip3 install --upgrade pip \
   gitpython \
