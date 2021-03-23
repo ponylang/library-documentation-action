@@ -6,7 +6,6 @@ import json
 import os
 import os.path
 import shutil
-import subprocess
 import sys
 from contextlib import contextmanager
 from tempfile import NamedTemporaryFile, mkstemp
@@ -289,12 +288,10 @@ with git_auth():
           + ENDC)
 
     print(INFO + "Running 'mkdocs gh-deploy'." + ENDC)
-    # pylint: disable=W1510
-    rslt = subprocess.run(
-        ['mkdocs', 'gh-deploy', '--verbose', '--clean',
-         '--remote-name', 'gh-token',
-         '--remote-branch', 'generated-documentation'],
-        cwd=docs_build_dir)
+    os.chdir(docs_build_dir)
+    rslt = os.system(
+        'mkdocs gh-deploy --verbose --clean --remote-name gh-token '
+        '--remote-branch generated-documentation')
 if rslt.returncode != 0:
     print(ERROR + "'mkdocs gh-deploy' failed." + ENDC)
     sys.exit(1)
