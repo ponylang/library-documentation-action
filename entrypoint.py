@@ -22,10 +22,15 @@ ERROR = '\033[31m'
 INFO = '\033[34m'
 NOTICE = '\033[33m'
 
-deploy_key = os.environ.get('DEPLOY_KEY')
-if not deploy_key and 'RELEASE_TOKEN' not in os.environ:
-    print(f"{ERROR}Either RELEASE_TOKEN or DEPLOY_KEY needs to be set in env. "
-          f"Exiting.{ENDC}")
+if 'DEPLOY_KEY' in os.environ:
+    deploy_key = os.environ['DEPLOY_KEY']
+    token = None
+elif 'RELEASE_TOKEN' in os.environ:
+    deploy_key = None
+    token = os.environ['RELEASE_TOKEN']
+else:
+    print(ERROR + "Either RELEASE_TOKEN or DEPLOY_KEY needs to be set in env. "
+          + "Exiting." + ENDC)
     sys.exit(1)
 
 library_name = os.environ['INPUT_LIBRARY_NAME']
@@ -273,7 +278,6 @@ else:
         """
         yield
 
-    token  = os.environ['RELEASE_TOKEN']
     remote = f'https://{token}@github.com/{os.environ["GITHUB_REPOSITORY"]}'
 git.remote('add', 'gh-token', remote)
 with git_auth():
