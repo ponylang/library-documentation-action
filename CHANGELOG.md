@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Added
 
+- Allow deploy keys as alternative to access tokens ([PR #13](https://github.com/ponylang/library-documentation-action/pull/13))
 
 ### Changed
 
