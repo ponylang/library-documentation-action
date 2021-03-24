@@ -38,6 +38,34 @@ jobs:
 
 N.B. The environment variable RELEASE_TOKEN that is required by each step must be a personal access token with public_repo access. You can not use the GITHUB_TOKEN environment variable provided by GitHub's action environment. If you try to use GITHUB_TOKEN, the action will fail when trying to upload the built documentation.
 
+Alternatively, you can use a [Deploy Key](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys) with write access by setting the `DEPLOY_KEY` environment variable:
+
+```yml
+name: Release
+
+on:
+  push:
+    tags:
+      - \d+.\d+.\d+
+
+jobs:
+  generate-documentation:
+    name: Generate documentation for release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Generate documentation and upload
+        uses: ponylang/library-documentation-action@0.1.5
+        with:
+          site_url: "https://MYORG.github.io/MYLIBRARY/"
+          library_name: "MYLIBRARY"
+          docs_build_dir: "build/MY-LIBRARY-docs"
+          git_user_name: "Ponylang Main Bot"
+          git_user_email: "ponylang.main@gmail.com"
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+```
+
 ## Manually triggering a documentation build and deploy
 
 GitHub has a [`workflow_dispatch`](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch) event that provides a button the actions UI to trigger the workflow. You can set up a workflow to respond to a workflow_dispatch if you need to regenerate documentation from the last commit on a given branch without doing a full release.

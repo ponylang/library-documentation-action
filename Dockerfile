@@ -10,6 +10,7 @@ RUN apk add --update --no-cache \
   libressl \
   libressl-dev \
   make \
+  openssh-client \
   python3 \
   python3-dev \
   py3-pip
