@@ -1,4 +1,0 @@
-## Add support for deploy tokens
-
-Previous versions of the library-documentation-action required the use of a personal access token. With this change, it's also possible to use a [deploy key](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys) instead.
-
