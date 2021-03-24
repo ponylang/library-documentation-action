@@ -2,17 +2,11 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
-
-### Fixed
-
+## [0.1.6] - 2021-03-24
 
 ### Added
 
 - Allow deploy keys as alternative to access tokens ([PR #13](https://github.com/ponylang/library-documentation-action/pull/13))
-
-### Changed
-
 
 ## [0.1.5] - 2021-02-08
 
