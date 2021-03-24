@@ -260,6 +260,8 @@ if deploy_key:
                     os.chmod(ssh_wrapper_path, 0o500)
 
                 identity_file.write(deploy_key.encode('utf-8'))
+                if not deploy_key.endswith("\n"):
+                    identity_file.write("\n")
                 identity_file.flush()
                 os.environ['GIT_SSH'] = ssh_wrapper_path
                 try:
