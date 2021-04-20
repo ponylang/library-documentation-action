@@ -23,7 +23,7 @@ jobs:
     name: Generate documentation for release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Generate documentation and upload
         uses: ponylang/library-documentation-action@0.1.6
         with:
@@ -53,7 +53,7 @@ jobs:
     name: Generate documentation for release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Generate documentation and upload
         uses: ponylang/library-documentation-action@0.1.6
         with:
@@ -99,7 +99,7 @@ jobs:
     name: Generate documentation for release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Generate documentation and upload
         uses: ponylang/library-documentation-action@0.1.6
         with:
