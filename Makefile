@@ -1,14 +1,22 @@
-TAG := docker.pkg.github.com/ponylang/library-documentation-action/library-documentation:latest
+IMAGE := ponylang/library-documentation-action
+
+ifndef tag
+  IMAGE_TAG := $(shell cat VERSION)
+else
+  IMAGE_TAG := $(tag)
+endif
 
 all: build
 
 build:
-	docker build --pull -t ${TAG} .
+	docker build --pull -t "${IMAGE}:${IMAGE_TAG}" .
+	docker build --pull -t "${IMAGE}:latest" .
+
+push: build
+	docker push "${IMAGE}:${IMAGE_TAG}"
+	docker push "${IMAGE}:latest"
 
 pylint: build
-	docker run --entrypoint pylint --rm ${TAG} /entrypoint.py
-
-script: build
-	docker run --entrypoint python3 --rm ${TAG} /entrypoint.py
+	docker run --entrypoint pylint --rm "${IMAGE}:latest" /entrypoint.py
 
 .PHONY: build pylint
