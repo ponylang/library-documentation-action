@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Added
 
+- Create images on release ([PR #15](https://github.com/ponylang/library-documentation-action/pull/15))
 
 ### Changed
 
