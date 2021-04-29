@@ -6,9 +6,24 @@ on:
       - \d+.\d+.\d+
 
 jobs:
-  update-version-in-readme-examples:
+  build-and-push-image:
+    name: Build and push action image
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker login
+        run: "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      - name: Build and push
+        run: make push
+
+  update-version-in-readme-examples:
     name: Update version in README examples
+    runs-on: ubuntu-latest
+    needs:
+      - build-and-push-image
     steps:
       - name: Update version in README examples
         uses: docker://ponylang/readme-version-updater-action:0.3.1
@@ -21,7 +36,8 @@ jobs:
   trigger-release-announcement:
     name: Trigger release announcement
     runs-on: ubuntu-latest
-    needs: [update-version-in-readme-examples]
+    needs:
+      - update-version-in-readme-examples
     steps:
       - uses: actions/checkout@v1
       - name: Trigger
