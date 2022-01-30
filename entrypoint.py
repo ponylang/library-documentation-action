@@ -91,7 +91,7 @@ for f in os.listdir(source_dir):
 print(INFO + "Trimming mkdocs.yml." + ENDC)
 mkdocs_yml = {}
 packages = []
-with open(mkdocs_yml_file) as infile:
+with open(mkdocs_yml_file, encoding="utf8") as infile:
     mkdocs_yml = yaml.load(infile, Loader=yaml.FullLoader)
     nav = mkdocs_yml['nav']
 
@@ -123,7 +123,7 @@ with open(mkdocs_yml_file) as infile:
 # without this, the 404 page will be broken
 mkdocs_yml['site_url'] = os.environ['INPUT_SITE_URL']
 
-with open(mkdocs_yml_file, 'w') as outfile:
+with open(mkdocs_yml_file, 'w', encoding="utf8") as outfile:
     yaml.dump(mkdocs_yml, outfile)
 
 #
@@ -175,21 +175,22 @@ if os.path.isdir("_corral"):
             print(NOTICE + "No corral.json in " + dd + "." + ENDC)
             continue
 
-        corral_data = json.load(open(corral_file, 'r'))
-        bundle_documentation_url = ""
-        try:
-            bundle_documentation_url = corral_data['info']['documentation_url']
-        except KeyError as e:
-            print(NOTICE + "No documentation_url in " + corral_file + "." \
-              + ENDC)
+        with open(corral_file, 'r', encoding="utf8") as corral_file:
+            corral_data = json.load(corral_file)
+            bundle_documentation_url = ""
+            try:
+                bundle_documentation_url = corral_data['info']['documentation_url']
+            except KeyError as e:
+                print(NOTICE + "No documentation_url in " + corral_file + "." \
+                  + ENDC)
 
-        try:
-            packages = corral_data['packages']
-            for p in packages:
-                documentation_urls[p] = bundle_documentation_url
-        except KeyError as e:
-            print(NOTICE + "No packages in " + corral_file + "." \
-              + ENDC)
+            try:
+                packages = corral_data['packages']
+                for p in packages:
+                    documentation_urls[p] = bundle_documentation_url
+            except KeyError as e:
+                print(NOTICE + "No packages in " + corral_file + "." \
+                  + ENDC)
 
 #
 # Go through the markdown belonging to our package and replace missing entries
@@ -252,7 +253,7 @@ if deploy_key:
         (ssh_wrapper_fd, ssh_wrapper_path) = mkstemp(text=True)
         try:
             with NamedTemporaryFile() as identity_file:
-                with open(ssh_wrapper_fd, "w") as ssh_wrapper_file:
+                with open(ssh_wrapper_fd, "w", encoding="utf8") as ssh_wrapper_file:
                     ssh_wrapper_file.write('#!/bin/sh\n')
                     ssh_wrapper_file.write(
                         f'exec ssh -o StrictHostKeyChecking=no '
