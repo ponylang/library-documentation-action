@@ -2,10 +2,7 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
-
-### Fixed
-
+## [0.2.0] - 2022-01-30
 
 ### Added
 
@@ -14,7 +11,6 @@ All notable changes to this project will be documented in this file. This projec
 ### Changed
 
 - Updated Pony version to 0.46.0
-
 
 ## [0.1.6] - 2021-03-24
 
