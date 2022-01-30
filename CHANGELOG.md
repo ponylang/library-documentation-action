@@ -13,6 +13,8 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Changed
 
+- Updated Pony version to 0.46.0
+
 
 ## [0.1.6] - 2021-03-24
 
