@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Changed
 
+- Updated to Pony version 0.47.0
 
 ## [0.2.0] - 2022-01-30
 
