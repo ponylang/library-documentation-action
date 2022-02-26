@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Generate documentation and upload
-        uses: ponylang/library-documentation-action@0.5.0
+        uses: docker://ponylang/release-notes-reminder-bot-action:release
         with:
           site_url: "https://MYORG.github.io/MYLIBRARY/"
           library_name: "MYLIBRARY"
@@ -55,7 +55,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Generate documentation and upload
-        uses: ponylang/library-documentation-action@0.5.0
+        uses: docker://ponylang/release-notes-reminder-bot-action:release
         with:
           site_url: "https://MYORG.github.io/MYLIBRARY/"
           library_name: "MYLIBRARY"
@@ -101,7 +101,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Generate documentation and upload
-        uses: ponylang/library-documentation-action@0.5.0
+        uses: docker://ponylang/release-notes-reminder-bot-action:release
         with:
           site_url: ${{ github.event.inputs.site_url }}
           library_name: ${{ github.event.inputs.library_name }}
@@ -111,3 +111,9 @@ jobs:
         env:
           RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 ```
+
+## Versioning
+
+We used to do versioning for the library-documentation-action but this lead to a lot of extra work each time a new version of ponyc was released. This action is considered feature complete and we don't intend to do any breaking updates to it. It will be deprecated in the future and replaced by a pony documentation command that ships with ponyc.
+
+Until then, to use this action, you should be tracking the `release` docker image and keeping your library up-to-date with any breaking ponyc changes. Using this action without keeping up with changes in ponyc will result in the action failing because the ponyc in the action image is incompatible with your code.
