@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Changed
 
+- Update to Pony 0.49.0 ([PR #22](https://github.com/ponylang/library-documentation-action/pull/22))
 
 ## [0.4.0] - 2022-02-09
 
