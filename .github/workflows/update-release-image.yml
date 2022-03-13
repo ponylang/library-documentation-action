@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
+      - name: Docker login
+        run: "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       - name: Build and push
         run: make push
       - name: Send alert on failure
@@ -26,4 +31,3 @@ jobs:
           type: stream
           topic: ${{ github.repository }} scheduled job failure
           content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
-
