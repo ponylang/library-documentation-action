@@ -175,8 +175,8 @@ if os.path.isdir("_corral"):
             print(NOTICE + "No corral.json in " + dd + "." + ENDC)
             continue
 
-        with open(corral_file, 'r', encoding="utf8") as corral_file:
-            corral_data = json.load(corral_file)
+        with open(corral_file, 'r', encoding="utf8") as corral_fd:
+            corral_data = json.load(corral_fd)
             bundle_documentation_url = ""
             try:
                 bundle_documentation_url = corral_data['info']['documentation_url']
