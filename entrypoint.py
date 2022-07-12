@@ -244,6 +244,7 @@ print(INFO + "Setting up git configuration." + ENDC)
 git = git.Repo().git
 git.config('--global', 'user.name', os.environ['INPUT_GIT_USER_NAME'])
 git.config('--global', 'user.email', os.environ['INPUT_GIT_USER_EMAIL'])
+git.config('--global', '--add', 'safe.directory', os.environ['GITHUB_WORKSPACE'])
 if deploy_key:
     @contextmanager
     def git_auth():
