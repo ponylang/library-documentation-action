@@ -18,7 +18,7 @@ RUN apk add --update --no-cache \
 RUN pip3 install --upgrade pip \
   gitpython \
   in_place \
-  mkdocs \
+  mkdocs==1.3.1 \
   mkdocs-ponylang \
   pylint \
   pyyaml
