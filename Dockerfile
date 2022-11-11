@@ -2,15 +2,11 @@ FROM ponylang/ponyc:release-alpine
 
 RUN apk add --update --no-cache \
   bash \
-  git \
-  git-fast-import \
-  jq \
   libffi \
   libffi-dev \
   libressl \
   libressl-dev \
   make \
-  openssh-client \
   python3 \
   python3-dev \
   py3-pip \

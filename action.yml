@@ -4,12 +4,6 @@ inputs:
     description: Location, relative to the Makefile, that generated documentation
       will be placed
     required: true
-  git_user_email:
-    description: Email to associate with documentation commits
-    required: true
-  git_user_name:
-    description: Name to associate with documentation commits
-    required: true
   library_name:
     description: Name of the library being uploaded
     required: true

@@ -18,52 +18,40 @@ on:
     tags:
       - \d+.\d+.\d+
 
-jobs:
-  generate-documentation:
-    name: Generate documentation for release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Generate documentation and upload
-        uses: docker://ponylang/library-documentation-action:release
-        with:
-          site_url: "https://MYORG.github.io/MYLIBRARY/"
-          library_name: "MYLIBRARY"
-          docs_build_dir: "build/MY-LIBRARY-docs"
-          git_user_name: "Ponylang Main Bot"
-          git_user_email: "ponylang.main@gmail.com"
-        env:
-          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-```
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-N.B. The environment variable RELEASE_TOKEN that is required by each step must be a personal access token with public_repo access. You can not use the GITHUB_TOKEN environment variable provided by GitHub's action environment. If you try to use GITHUB_TOKEN, the action will fail when trying to upload the built documentation.
-
-Alternatively, you can use a [Deploy Key](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys) with write access by setting the `DEPLOY_KEY` environment variable:
-
-```yml
-name: Release
-
-on:
-  push:
-    tags:
-      - \d+.\d+.\d+
+concurrency:
+  group: "update-documentation"
+  cancel-in-progress: true
 
 jobs:
   generate-documentation:
     name: Generate documentation for release
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Generate documentation and upload
-        uses: docker://ponylang/library-documentation-action:release
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Generate documentation
+        uses: ponylang/library-documentation-action@via-github-action
         with:
           site_url: "https://MYORG.github.io/MYLIBRARY/"
           library_name: "MYLIBRARY"
           docs_build_dir: "build/MY-LIBRARY-docs"
-          git_user_name: "Ponylang Main Bot"
-          git_user_email: "ponylang.main@gmail.com"
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'build/MY-LIBRARY-docs/site/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
 ```
 
 ## Manually triggering a documentation build and deploy
@@ -76,40 +64,42 @@ We suggest that you install the a `workflow_dispatch` driven workflow to generat
 name: Manually generate documentation
 
 on:
-  workflow_dispatch:
-    inputs:
-      library_name:
-        description: 'Name of the library being uploaded'
-        required: true
-      docs_build_dir:
-        description: 'Location, relative to the Makefile, that generated documentation will be placed'
-        required: true
-      site_url:
-        description: 'Url for the site that the documentation will be hosted on'
-        required: true
-      git_user_name:
-        description: 'Name to associate with documentation commits'
-        required: true
-      git_user_email:
-        description: 'Email to associate with documentation commits'
-        required: true
+  workflow_dispatch
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "update-documentation"
+  cancel-in-progress: true
 
 jobs:
   generate-documentation:
     name: Generate documentation for release
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Generate documentation and upload
-        uses: docker://ponylang/library-documentation-action:release
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Generate documentation
+        uses: ponylang/library-documentation-action@via-github-action
         with:
-          site_url: ${{ github.event.inputs.site_url }}
-          library_name: ${{ github.event.inputs.library_name }}
-          docs_build_dir: ${{ github.event.inputs.docs_build_dir }}
-          git_user_name: ${{ github.event.inputs.git_user_name }}
-          git_user_email: ${{ github.event.inputs.git_user_email }}
-        env:
-          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          site_url: "https://MYORG.github.io/MYLIBRARY/"
+          library_name: "MYLIBRARY"
+          docs_build_dir: "build/MY-LIBRARY-docs"
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'build/MY-LIBRARY-docs/site/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
 ```
 
 ## Versioning
