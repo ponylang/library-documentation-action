@@ -59,7 +59,7 @@ source_dir = os.path.join(docs_dir, 'src')
 print(INFO + "Removing 'other docs'." + ENDC)
 removed_docs = []
 for f in os.listdir(docs_dir):
-    if f in ('src', 'index.md'):
+    if f in ('assets', 'src', 'index.md'):
         continue
 
     if not f.startswith(library_name + '-'):
@@ -199,7 +199,7 @@ if os.path.isdir("_corral"):
 
 print(INFO + "Fixing links to code outside of our package." + ENDC)
 for f in os.listdir(docs_dir):
-    if f == "src":
+    if f in ('assets', 'src'):
         continue
 
     p = os.path.join(docs_dir, f)
