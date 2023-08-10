@@ -16,7 +16,7 @@ name: Release
 on:
   push:
     tags:
-      - \d+.\d+.\d+
+      - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   generate-documentation:
@@ -46,7 +46,7 @@ name: Release
 on:
   push:
     tags:
-      - \d+.\d+.\d+
+      - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   generate-documentation:
