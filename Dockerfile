@@ -1,4 +1,4 @@
-FROM ponylang/ponyc:release-alpine
+FROM ghcr.io/ponylang/ponyc:release-alpine
 
 RUN apk add --update --no-cache \
   bash \
