@@ -16,7 +16,7 @@ RUN apk add --update --no-cache \
   py3-pip \
   tar
 
-RUN pip3 install --upgrade pip \
+RUN pip3 install --upgrade --break-system-packages pip \
   gitpython \
   in_place \
   mkdocs \
