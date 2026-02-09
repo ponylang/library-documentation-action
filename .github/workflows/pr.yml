@@ -6,6 +6,9 @@ concurrency:
   group: pr-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  packages: read
+
 jobs:
   lint-entrypoint-py:
     name: Lint entrypoint.py
