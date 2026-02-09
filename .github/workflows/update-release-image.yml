@@ -6,6 +6,9 @@ on:
       - ponyc-nightly-image-pushed
       - ponyc-release-image-pushed
 
+permissions:
+  packages: write
+
 jobs:
   rebuild-docker-images:
     name: Rebuild docker images
