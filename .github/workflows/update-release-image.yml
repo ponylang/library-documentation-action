@@ -3,7 +3,6 @@ name: Post ponyc release tasks
 on:
   repository_dispatch:
     types:
-      - ponyc-nightly-image-pushed
       - ponyc-release-image-pushed
 
 permissions:
